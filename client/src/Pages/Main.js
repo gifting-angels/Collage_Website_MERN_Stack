@@ -7,6 +7,7 @@ import Admin from './Admin/Admin';
 import Dashboard from "../componant/AdminPanal/Pages/Dashboard"
 import RequestForAdmin from "../componant/AdminPanal/Pages/RequestForAdmin"
 import UploadMaterial from '../componant/AdminPanal/Pages/UploadMaterial';
+import StudyMaterial from './Study_Material/StudyMaterial';
 
 function Main() {
   return (
@@ -19,7 +20,8 @@ function Main() {
         <Route path="/adminPanal" element={<Admin/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/adminRequest" element={<RequestForAdmin/>}/>
-        <Route path="/uploadMaterial" element={<UploadMaterial/>}/>
+        <Route path="/UploadMaterial" element={<UploadMaterial/>}/>
+        <Route path="/studyMaterial" element={<StudyMaterial/>}/>
       </Routes>
     </BrowserRouter>
     </>

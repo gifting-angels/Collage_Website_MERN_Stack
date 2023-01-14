@@ -16,15 +16,15 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).array("studyMaterial");
 
 const uploadStudyMaterial = async (req, res) => {
+ 
   await upload(req, res, (err) => {
     if (err) {
       res.status(500).send(err);
     } else {
       try {
         var files = req.files;
-        console.log(res)
-        // console.log(req.body.studyMaterial);
         for (var a of files) {
+          console.log(a);
         const newMaterial = new uploadStudyMaterialModel({
           Branch: req.body.Branch,
           Classes: req.body.Classes,

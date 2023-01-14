@@ -1,18 +1,24 @@
+// const express = require('express');
+// const app = express();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const RegisterModel = require("../Model/RegisterModel")
+const uploadStudyMaterialModel = require("../Model/StudyMaterial")
 const auth = require("../Middleware/auth")
+var cookieParser = require('cookie-parser')
+// app.use(express.cookieParser())
 const signIn = async (req,res)=>{
     try {
+     
        const data = await RegisterModel.findOne({Email:req.body.email})
        const passwordMatch = await bcrypt.compare(req.body.password,data.Password)
        const token = await jwt.sign({Email : data.Email}, process.env.SECRET)
-       
+    //    res.cookie('newToken',"hello", { httpOnly: true});
        if(!data) return res.status(404).json({islogin:false, message: "User doesn't exist" })
        if(!passwordMatch) return res.status(400).json({islogin:false,message: "Incorrect Password"})
        
        if(passwordMatch){
-        res.cookie('newToken',token, { maxAge: 900000, httpOnly: true});
+        res.cookie("auth", token, { httpOnly: true, sameSite: true, maxAge: 24 * 60 * 60 * 1000, });
         res.status(200).send({id:data._id,email:data.Email,name:data.Name,islogin:true,token:token,admin:data.Admin})
         
          }
@@ -31,8 +37,9 @@ const signUp = async (req,res)=>{
             Password:cryptedPass
           })
           const data = await insertData.save()
-          const token = await jwt.sign({Email : data.Email}, process.env.SECRET)
-          res.cookie('newToken',token, { maxAge: 900000, httpOnly: true });
+        //   const token = await jwt.sign({Email : data.Email}, process.env.SECRET)
+       
+        //   res.cookie('newToken',token,{httpOnly: true,}  );
           res.status(201).send({isRegister:true,errorMsg:"Register Successfully"})
          
 
@@ -76,4 +83,15 @@ const rejectAdmin = async(req,res)=>{
         res.end()
     }
 }
-module.exports = {signIn,signUp,requestForAdmin,acceptAdmin,rejectAdmin};
+const findStudyMaterial = async(req,res)=>{
+    try {
+       var data =  await uploadStudyMaterialModel.find({"Branch":req.body.Branch,"Classes":req.body.Classes,"Subject":req.body.Subject})
+    //    console.log(data);
+       res.send(data)
+       res.end()
+    } catch (error) {
+        res.error
+        console.log(error)
+    }
+}
+module.exports = {signIn,signUp,requestForAdmin,acceptAdmin,rejectAdmin,findStudyMaterial};
