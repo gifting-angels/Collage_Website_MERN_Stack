@@ -8,6 +8,7 @@ export default function RequestForAdmin() {
   const [adminRequestData, setadminRequestData] = useState([]);
   const [showAccept, setShowAccept] = useState(false);
   const [showReject, setShowReject] = useState(false);
+  const [update, setupdate] = useState(false)
   const [id, setId] = useState()
   // admin Request
 
@@ -20,7 +21,7 @@ export default function RequestForAdmin() {
         .catch((err) => {
             console.log(err);
         });
-},[]);
+},[update]);
   
 // Accept
    
@@ -28,12 +29,12 @@ export default function RequestForAdmin() {
     const handleAcceptAdmin = () => {
       axios.put("/acceptAdminRequest",{id:id})
       .then((result) => {
-        
+        setupdate(!update) 
       }).catch((err) => {
-        
+        setupdate(!update)
       });
       setShowAccept(false)
-      window.location.reload(false)
+     
     };
     const handleShowAccept = (id) =>{
       setShowAccept(true)
@@ -46,13 +47,13 @@ export default function RequestForAdmin() {
       axios.put("/rejectAdminRequest",{id:id})
      
       .then((result) => {
-        
+        setupdate(!update)
       }).catch((err) => {
-        
+        setupdate(!update)
       });
-      console.log("here");
+  
       setShowReject(false)
-      window.location.reload(false)
+     
     };
     const handleShowReject = (id) => {
       setShowReject(true);

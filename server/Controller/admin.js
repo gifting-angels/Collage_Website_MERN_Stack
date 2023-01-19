@@ -16,10 +16,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).array("studyMaterial");
 
 const uploadStudyMaterial = async (req, res) => {
- 
-  await upload(req, res, (err) => {
+  console.log("here")
+   upload(req, res, (err) => {
+   
     if (err) {
       res.status(500).send(err);
+      res.end()
     } else {
       try {
         var files = req.files;
@@ -53,4 +55,19 @@ const uploadStudyMaterial = async (req, res) => {
   });
 };
 
-module.exports = { uploadStudyMaterial };
+const deleteStudyMaterial = async (req,res)=>{
+  console.log(req.body);
+          try {
+          var data =    await uploadStudyMaterialModel.deleteOne({_id:req.body.id})
+          console.log(data);
+            res.send(data)
+            res.end()
+          } catch (error) {
+            console.log(error)
+            res.send(error)
+            res.end()
+          }
+
+}
+
+module.exports = { uploadStudyMaterial,deleteStudyMaterial };

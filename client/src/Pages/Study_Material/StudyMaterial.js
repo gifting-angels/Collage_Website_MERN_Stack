@@ -161,7 +161,7 @@ export default function StudyMaterial() {
                 <div key={item._id} className="p-1 my-2 mx-2">
                   <span
                     onClick={() => handlePDFClick(item)}
-                    className="p-2"
+                    className="p-2 pdf"
                     style={{
                       backgroundColor: "#e7ffed",
                       color: "green",

@@ -19,7 +19,7 @@ function Signup() {
       if(formData.password===formData.confirmPassword){
         axios.post("/admin/register",{name:formData.name,email:formData.email,password:formData.password})
         .then((result) => {
-            console.log("hi",result)
+            // console.log("hi",result)
         }).catch((err) => {
             if(err.response.status===409){
                setemailUnique(false)

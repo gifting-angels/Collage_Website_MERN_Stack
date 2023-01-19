@@ -3,6 +3,7 @@ import Navbar from "../../Nav/Navbar";
 import SideBar from "../SideBar";
 import { FileUploader } from "react-drag-drop-files";
 import "./UploadMaterial.css";
+import { NavLink, Link } from "react-router-dom";
 import { MDBContainer, MDBCol, MDBRow } from "mdb-react-ui-kit";
 import { Document, Page } from "react-pdf";
 // import PDFViewer from "pdf-viewer-reactjs";
@@ -28,7 +29,7 @@ export default function UploadMaterial() {
   //  uploadPdf
   const handleChangeInput = (f) => {
     var a = Object.values(f);
-    console.log(file);
+    // console.log(file);
     if (a.length !== 0) {
       setFile((prev) => [...prev, ...a]);
       seterrmsgUploadDocument(false);
@@ -60,7 +61,7 @@ export default function UploadMaterial() {
     if (file.length === 0) {
       seterrmsgUploadDocument(true);
     } else {
-      console.log(file);
+      // console.log(file);
       var bodyFormData = new FormData();
       bodyFormData.append("Branch", branch);
       bodyFormData.append("Classes", classes);
@@ -75,20 +76,20 @@ export default function UploadMaterial() {
       axios
         .post("/uploadStudyMaterial", bodyFormData)
         .then((result) => {
-          setclickOnSubmit(true)
-          setuploadSuccesful(true)
-          setFile([])
+          setclickOnSubmit(true);
+          setuploadSuccesful(true);
+          setFile([]);
           setTimeout(() => {
-            setclickOnSubmit(false)
-            setuploadSuccesful(false)
+            setclickOnSubmit(false);
+            setuploadSuccesful(false);
           }, 6000);
         })
         .catch((err) => {
-          setclickOnSubmit(true)
-          setuploadSuccesful(false)
+          setclickOnSubmit(true);
+          setuploadSuccesful(false);
           setTimeout(() => {
-            setclickOnSubmit(false)
-            setuploadSuccesful(false)
+            setclickOnSubmit(false);
+            setuploadSuccesful(false);
           }, 8000);
         });
     }
@@ -100,7 +101,12 @@ export default function UploadMaterial() {
       <div style={{ display: "flex" }}>
         <SideBar />
         <div style={{ padding: "20px 50px" }}>
-          <h2 style={{textAlign:"center"}}>Upload Study Material</h2>
+          <div style={{ position: "relative"}}>
+            <h2 style={{textAlign:'center'}}>Upload Study Material</h2>
+            <Link to="/deleteStudyMaterial" className="px-3 rounded" style={{position: "absolute", right: "0px",top:"10px",color:"white",backgroundColor:"red", }} >
+              Delete study Material
+            </Link>
+          </div>
           <hr />
           <form action="" method="post" onSubmit={handleOnSubmit}>
             <MDBRow>
@@ -237,19 +243,27 @@ export default function UploadMaterial() {
                   </label>
                 </div>
               </MDBRow>
-              {clickOnSubmit &&  <MDBRow style={{}}>
-              {uploadSuccesful ?<div
-                  class="alert alert-success alert-dismissible fade show border border-success"
-                  role="alert"
-                >
-                  <strong>Upload Successfully</strong> documents uploaded Successfully, If you have more than studyMaterial then please upload.
-                </div>:<div
-                  class="alert alert-danger alert-dismissible fade show border border-danger"
-                  role="alert"
-                >
-                  <strong>Uploading fail !</strong>, Try again.
-                </div>}
-              </MDBRow>}
+              {clickOnSubmit && (
+                <MDBRow style={{}}>
+                  {uploadSuccesful ? (
+                    <div
+                      class="alert alert-success alert-dismissible fade show border border-success"
+                      role="alert"
+                    >
+                      <strong>Upload Successfully</strong> documents uploaded
+                      Successfully, If you have more than studyMaterial then
+                      please upload.
+                    </div>
+                  ) : (
+                    <div
+                      class="alert alert-danger alert-dismissible fade show border border-danger"
+                      role="alert"
+                    >
+                      <strong>Uploading fail !</strong>, Try again.
+                    </div>
+                  )}
+                </MDBRow>
+              )}
               <MDBRow style={{}}>
                 <button
                   type="submit"

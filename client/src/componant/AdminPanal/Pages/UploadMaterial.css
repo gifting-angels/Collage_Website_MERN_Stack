@@ -36,3 +36,7 @@
     max-width: 100% !important;
     overflow: visible;
 }
+
+.pdf{
+    cursor:pointer;;
+}
